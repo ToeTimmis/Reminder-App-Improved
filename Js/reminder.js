@@ -7,6 +7,7 @@ let reminders = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_REMINDERS)) ||
 let listRoot = document.querySelector("#list-root");
 let listForm = document.querySelector("[data-list-form]");
 let listInput = document.querySelector("[data-list-input]");
+let dateInput = document.querySelector("[date-input]");
 let timeInput = document.querySelector("[time-input]");
 
 let reminderSound = new Audio("Js/Alarm.mp3");
@@ -16,16 +17,18 @@ listForm.addEventListener("submit", (e) => {
     if (listInput.value.trim() === ""){
         return;
     }
-    reminders.push(CreateReminder(listInput.value.trim(), timeInput.value));
+    reminders.push(CreateReminder(listInput.value.trim(), dateInput.value, timeInput.value));
     UpdateReminders();
     listInput.value = "";
+    dateInput.value = "";
     timeInput.value = "";
 });
 
-function CreateReminder(name, time) {
+function CreateReminder(name, date, time) {
     return {
       id: Date.now().toString(),
       name: name,
+      date: date,
       time: time,
       bold: false,
     };
@@ -67,6 +70,9 @@ function SaveList(){
 
 function clockTime(item){
     let currentTime = new Date();
+    let currentYear = currentTime.getFullYear();
+    let currentMonth = currentTime.getMonth();
+    let currentDay = currentTime.getDate();
     let currentHour = currentTime.getHours();
     let currentMinute = currentTime.getMinutes();
     let currentSecond = currentTime.getSeconds();
@@ -75,6 +81,8 @@ function clockTime(item){
     currentHour = (currentHour < 10 ? "0" : "") + currentHour;
     currentMinute = (currentMinute < 10 ? "0" : "") + currentMinute;
     currentSecond = (currentSecond < 10 ? "0" : "") + currentSecond;
+    currentMonth = (currentMonth < 10 ? "0" : "") + currentMonth;
+    currentDay = (currentDay < 10 ? "0" : "") + currentDay;
 
     let currentTimeDetector = currentHour.toString() + ":" + currentMinute.toString();
 
@@ -88,7 +96,8 @@ function clockTime(item){
     
 
     let timeDisplayed = currentHour + ":" + currentMinute + ":" + currentSecond;
-    document.querySelector("#clock").firstChild.nodeValue = timeDisplayed;
+    let dateDisplayed = currentYear + "-" + currentMonth + "-" + currentDay;
+    document.querySelector("#clock").firstChild.nodeValue = timeDisplayed + " " + dateDisplayed;
 }
 
 clockTime(reminders);
