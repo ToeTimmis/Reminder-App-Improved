@@ -39,10 +39,10 @@ function Reminderlist(items){
     items.forEach((item) => {
         let reminderlistItem = document.createElement("li");
         if (item.bold == true){
-            reminderlistItem.innerHTML = item.name.bold() + " " + item.time.bold();
+            reminderlistItem.innerHTML = item.name.bold() + " " + item.date.bold() + " " + item.time.bold();
         }
         else {
-            reminderlistItem.innerHTML = item.name + " " + item.time;
+            reminderlistItem.innerHTML = item.name + " " + item.date + " " + item.time;
         }
         reminderlistItem.setAttribute("data-id", item.id);
         reminderlistItem.classList.add("reminder-list-item");
@@ -71,13 +71,13 @@ function SaveList(){
 function clockTime(item){
     let currentTime = new Date();
     let currentYear = currentTime.getFullYear();
-    let currentMonth = currentTime.getMonth();
+    let currentMonth = currentTime.getMonth() + 1;
     let currentDay = currentTime.getDate();
     let currentHour = currentTime.getHours();
     let currentMinute = currentTime.getMinutes();
     let currentSecond = currentTime.getSeconds();
-
-
+    
+    
     currentHour = (currentHour < 10 ? "0" : "") + currentHour;
     currentMinute = (currentMinute < 10 ? "0" : "") + currentMinute;
     currentSecond = (currentSecond < 10 ? "0" : "") + currentSecond;
@@ -85,12 +85,15 @@ function clockTime(item){
     currentDay = (currentDay < 10 ? "0" : "") + currentDay;
 
     let currentTimeDetector = currentHour.toString() + ":" + currentMinute.toString();
-
+    let currentDateDetector = currentYear.toString() + "-" + currentMonth.toString() + "-" + currentDay.toString();
+    
     for (let i = 0; i < item.length; i++){
-        if(currentTimeDetector == item[i].time){
-            reminderSound.play();
-            item[i].bold = true;
-            UpdateReminders();
+        if(currentDateDetector == item[i].date || item[i].date == ""){
+            if(currentTimeDetector == item[i].time){
+                reminderSound.play();
+                item[i].bold = true;
+                UpdateReminders();
+            }
         }
     }
     
