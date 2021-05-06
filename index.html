@@ -10,15 +10,15 @@
     <title>Reminder app</title>
 </head>
 <body>
-    <div id="clock">
-            
-    </div>
     <header>
         Reminder
     </header>
     <header id="timerHead">
         Timer
     </header>
+    <div id="clock">
+            
+    </div>
     <section id="reminders">
         <form data-list-form>
             <input type="text" data-list-input>
@@ -29,6 +29,16 @@
         <div id="list-root"> <!--här kommer javascriptet att göra saker-->
 
         </div>
+    </section>
+    <section id="timer">
+        <form timer-form>
+            <input type="number">
+            <button>Add</button>
+        </form>
+        <div id="timer-root">
+
+        </div>
+
     </section>
 </body>
 </html>
