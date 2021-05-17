@@ -1,25 +1,25 @@
 "use strict";
 
-const LOCAL_STORAGE_KEY_REMINDERS = "reminder.app.reminders";
+const LOCAL_STORAGE_KEY_REMINDERS = "app.reminders.advanced";
 
 let reminders = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_REMINDERS)) || [];
 
-let listRoot = document.querySelector("#list-root");
-let listForm = document.querySelector("[data-list-form]");
-let listInput = document.querySelector("[data-list-input]");
+let reminderRoot = document.querySelector("#reminder-root");
+let reminderForm = document.querySelector("[data-reminder-form]");
+let reminderInput = document.querySelector("[data-reminder-input]");
 let dateInput = document.querySelector("[date-input]");
 let timeInput = document.querySelector("[time-input]");
 
 let reminderSound = new Audio("Js/Alarm.mp3");
 
-listForm.addEventListener("submit", (e) => {
+reminderForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (listInput.value.trim() === ""){
+    if (reminderInput.value.trim() === ""){
         return;
     }
-    reminders.push(CreateReminder(listInput.value.trim(), dateInput.value, timeInput.value));
+    reminders.push(CreateReminder(reminderInput.value.trim(), dateInput.value, timeInput.value));
     UpdateReminders();
-    listInput.value = "";
+    reminderInput.value = "";
     dateInput.value = "";
     timeInput.value = "";
 });
@@ -34,7 +34,7 @@ function CreateReminder(name, date, time) {
     };
   }
 
-function ReminderList(items){
+function Reminderlist(items){
     let list = document.createElement("ul");
     items.forEach((item) => {
         let reminderlistItem = document.createElement("li");
@@ -46,29 +46,29 @@ function ReminderList(items){
         }
         reminderlistItem.setAttribute("data-id", item.id);
         reminderlistItem.classList.add("reminder-list-item");
-        reminderlistItem.addEventListener("click", removeItem);
+        reminderlistItem.addEventListener("click", RemoveReminder);
         list.append(reminderlistItem);
     });
     return list;
 }
 
-function removeItem(event){
+function RemoveReminder(event){
     let removeItem = event.target.getAttribute("data-id");
     reminders = reminders.filter((item) => item.id !== removeItem);
     UpdateReminders();
 }
 
 function UpdateReminders(){ 
-    SaveList();
-    listRoot.innerHTML = "";
-    listRoot.append(ReminderList(reminders));
+    SaveReminders();
+    reminderRoot.innerHTML = "";
+    reminderRoot.append(Reminderlist(reminders));
 }
 
-function SaveList(){
+function SaveReminders(){
     localStorage.setItem(LOCAL_STORAGE_KEY_REMINDERS, JSON.stringify(reminders));
 }
 
-function clockTime(item){
+function ClockTime(item){
     let currentTime = new Date();
     let currentYear = currentTime.getFullYear();
     let currentMonth = currentTime.getMonth() + 1;
@@ -103,7 +103,7 @@ function clockTime(item){
     document.querySelector("#clock").firstChild.nodeValue = timeDisplayed + " " + dateDisplayed;
 }
 
-clockTime(reminders);
-setInterval("clockTime(reminders)", 1000);
+ClockTime(reminders);
+setInterval("ClockTime(reminders)", 1000);
 
 UpdateReminders();
