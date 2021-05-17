@@ -1,6 +1,6 @@
 "use strict";
 
-const LOCAL_STORAGE_KEY_REMINDERS = "app.reminders.advanced";
+const LOCAL_STORAGE_KEY_REMINDERS = "reminder.app.reminders";
 
 let reminders = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_REMINDERS)) || [];
 
@@ -34,7 +34,7 @@ function CreateReminder(name, date, time) {
     };
   }
 
-function Reminderlist(items){
+function ReminderList(items){
     let list = document.createElement("ul");
     items.forEach((item) => {
         let reminderlistItem = document.createElement("li");
@@ -61,7 +61,7 @@ function removeItem(event){
 function UpdateReminders(){ 
     SaveList();
     listRoot.innerHTML = "";
-    listRoot.append(Reminderlist(reminders));
+    listRoot.append(ReminderList(reminders));
 }
 
 function SaveList(){

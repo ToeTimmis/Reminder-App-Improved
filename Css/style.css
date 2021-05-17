@@ -35,6 +35,11 @@ header{
     grid-row: 3/5;
 }
 
+#timer-root {
+    grid-column: 5/7;
+    grid-row: 4/6;
+}
+
 #clock {
     display: flex;
     grid-column: 2/7;
@@ -43,8 +48,14 @@ header{
     justify-content: center;
 }
 
+ul {
+    margin: 10px;
+    padding: 0px;
+}
+
 li {
     font-size: 2em;
+    list-style-type: none;
 }
 
 li:hover {
@@ -73,7 +84,7 @@ button {
     color: inherit;
     font-family: 'VT323', monospace;
     font-size: 2em;
-    width: 15%;
+    width: clamp(55px, 15%, 75px);
 }
 
 button:hover {
